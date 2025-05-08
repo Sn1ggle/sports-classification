@@ -1,48 +1,31 @@
 function checkFiles(files) {
-    console.log(files);
-
-    if (files.length != 1) {
-        alert("Bitte genau eine Datei hochladen.")
+    if (files.length === 0) {
+        alert("Bitte ein Bild auswählen.");
         return;
     }
 
-    const fileSize = files[0].size / 1024 / 1024; // in MiB
-    if (fileSize > 10) {
-        alert("Datei zu gross (max. 10Mb)");
-        return;
-    }
-
-    answerPart.style.visibility = "visible";
     const file = files[0];
 
-    // Preview
-    if (file) {
-        preview.src = URL.createObjectURL(files[0])
-    }
+    // Vorschau anzeigen
+    const preview = document.getElementById('preview');
+    preview.src = URL.createObjectURL(file);
 
-    // Upload
+    // Daten vorbereiten
     const formData = new FormData();
-    for (const name in files) {
-        formData.append("image", files[name]);
-    }
+    formData.append("image", file);
 
+    // Anfrage an REST-Service senden
     fetch('/analyze', {
         method: 'POST',
-        headers: {
-        },
         body: formData
-    }).then(
-        response => {
-            console.log(response)
-            response.text().then(function (text) {
-                answer.innerHTML = text;
-            });
-
-        }
-    ).then(
-        success => console.log(success)
-    ).catch(
-        error => console.log(error)
-    );
-
+    })
+    .then(response => response.text())
+    .then(text => {
+        document.getElementById('answer').innerText = text;
+        document.getElementById('answerPart').style.visibility = "visible";
+    })
+    .catch(error => {
+        console.error('Fehler:', error);
+        alert("Fehler beim Senden der Anfrage.");
+    });
 }
