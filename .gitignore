@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 target/
 pom.xml.tag
 pom.xml.releaseBackup
@@ -16,7 +15,6 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
-=======
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -50,4 +48,6 @@ build/
 
 ### VS Code ###
 .vscode/
->>>>>>> 821e08c (Initialize sports classification project with Spring Boot setup and basic file structure)
+
+### data ###
+.data/
