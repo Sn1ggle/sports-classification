@@ -1,37 +1,40 @@
 package ch.zhaw.deeplearningjava.sports_classification;
 
-import ai.djl.Application;
+import ai.djl.Model;
+import ai.djl.inference.Predictor;
 import ai.djl.modality.Classifications;
 import ai.djl.modality.cv.Image;
 import ai.djl.modality.cv.ImageFactory;
+import ai.djl.modality.cv.translator.ImageClassificationTranslator;
 import ai.djl.translate.TranslateException;
-import ai.djl.repository.zoo.Criteria;
-import ai.djl.repository.zoo.ZooModel;
-import ai.djl.training.util.ProgressBar;
+import ai.djl.translate.Translator;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import ai.djl.inference.Predictor;
+import java.nio.file.Paths;
 
 public class Inference {
 
     private final Predictor<Image, Classifications> predictor;
 
     public Inference() throws Exception {
-        Criteria<Image, Classifications> criteria = Criteria.builder()
-                .setTypes(Image.class, Classifications.class)
-                .optApplication(Application.CV.IMAGE_CLASSIFICATION)
-                .optFilter("layers", "50")   // ResNet50
-                .optFilter("flavor", "v1")   // Version 1
-                .optProgress(new ProgressBar())
+        // Modell laden
+//        Model model = Model.newInstance(Models.MODEL_NAME); //Allgemeines Modell
+        Model model = Models.getModel(); //Modell mit garantiert derselen Architektur wie beim Training
+
+        model.load(Paths.get("models"), Models.MODEL_NAME);
+
+        // DJL Translator
+        Translator<Image, Classifications> translator = ImageClassificationTranslator.builder()
+                .addTransform(new ai.djl.modality.cv.transform.Resize(Models.IMAGE_WIDTH, Models.IMAGE_HEIGHT))
+                .addTransform(new ai.djl.modality.cv.transform.ToTensor())
+                .optApplySoftmax(true)
                 .build();
 
-        ZooModel<Image, Classifications> model = criteria.loadModel();
-        predictor = model.newPredictor();
+        predictor = model.newPredictor(translator);
     }
 
     public Classifications predict(byte[] imageData) throws IOException, TranslateException {
@@ -41,3 +44,4 @@ public class Inference {
         return predictor.predict(img);
     }
 }
+
