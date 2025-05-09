@@ -49,8 +49,7 @@ build/
 ### VS Code ###
 .vscode/
 
-### data ###
-data/
-
-### env ###
+### others ###
 .env
+data/
+models/
