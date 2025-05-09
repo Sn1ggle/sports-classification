@@ -24,6 +24,6 @@ public class ClassificationController {
 
     @GetMapping("/ping")
     public String ping() {
-        return "Image classification app is running!";
+        return "Image classification app is up and running!";
     }
 }
