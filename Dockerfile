@@ -1,3 +1,7 @@
+#Use
+#docker tag sports-classifier ghcr.io/sn1ggle/sports-classification:latest
+#docker push ghcr.io/sn1ggle/sports-classification:latest
+
 FROM openjdk:21-jdk-slim
 
 # Arbeitsverzeichnis im Container
