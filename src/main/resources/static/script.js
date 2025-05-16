@@ -28,4 +28,19 @@ function checkFiles(files) {
         console.error('Fehler:', error);
         alert("Fehler beim Senden der Anfrage.");
     });
+
+    fetch('/labels')
+    .then(response => response.json())
+    .then(labels => {
+        const list = document.getElementById('labelList');
+        labels.forEach(label => {
+            const li = document.createElement('li');
+            li.textContent = label;
+            list.appendChild(li);
+        });
+    })
+    .catch(err => {
+        console.error("Fehler beim Laden der Labels:", err);
+    });
+
 }
