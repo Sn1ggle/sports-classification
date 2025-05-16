@@ -33,7 +33,7 @@ public class Training {
         Path modelDir = Paths.get("models");
 
         System.out.println("Lade Dataset...");
-        ImageFolder dataset = initDataset("sports-classification-20/train");
+        ImageFolder dataset = initDataset("20sports-classification/train");
         RandomAccessDataset[] datasets = dataset.randomSplit(8, 2);
 
         System.out.println("Erstelle Modell...");
