@@ -21,13 +21,13 @@
                 <input type="file" accept="image/png, image/jpeg" class="form-control-file" id="image" name="image"
                     onchange="checkFiles(this.files);">
             </div>
-        </form>
-
+        </form>       
+        
         <div class="mt-4">
             <b>Dieses Modell erkennt folgende Sportarten:</b>
-            <ul id="labelList"></ul>
-        </div>        
-
+            <div class="row" id="labelGrid"></div>
+        </div>
+        
         <div id="answerPart" style="visibility: hidden;">
             <p><b>Prediction:</b>
             <div id="answer"></div>
